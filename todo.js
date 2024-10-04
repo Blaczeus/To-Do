@@ -116,7 +116,7 @@ function displayTask ()
 
 function deleteTask (taskId) {
     entries = getTasks();
-    entries.filter(task => task.id !== Number(taskId));
+    entries = entries.filter(task => task.id !== Number(taskId));
     localStorage.setItem( "tasks", JSON.stringify( entries ) );
     displayTask();
     alert("Task Deleted");
