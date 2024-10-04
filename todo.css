@@ -8,12 +8,16 @@ body {
 }
 
 .form-container {
-    max-width: 600px;
+    /* max-width: 600px; */
     margin: 0 auto;
 }
 
 .task-list {
-    max-width: 600px;
+    /* max-width: 600px; */
     margin: 0 auto;
     overflow-y: auto;
+}
+
+form::placeholder {
+    font-family: cursive;
 }

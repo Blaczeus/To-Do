@@ -17,18 +17,18 @@
 
     <body>
         <!-- Form and Task List Container -->
-        <div class="container mt-5 form-container">
+        <div class="col-6 container mt-5 form-container">
             <h1 class="text-center">To-Do List</h1>
             <form id="taskForm" class="mb-4">
                 <div class="mb-3">
                     <label for="task" class="form-label">Task</label>
                     <input type="text" class="form-control" id="task" placeholder="Add task here" required>
                 </div>
-                <!-- <div class="mb-3">
+                <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" rows="3" required></textarea>
-                </div> -->
-                <button type="button" id="submit" class="btn btn-primary">Save Task</button>
+                    <textarea class="form-control" id="description" rows="3" placeholder="You might want to add some description"></textarea>
+                </div>
+                <button type="button" id="submit" class="btn btn-success">Save Task</button>
             </form>
 
             <h3>Task List</h3>
