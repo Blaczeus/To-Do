@@ -85,6 +85,11 @@ function displayTask ()
         let taskElement = document.createElement( 'li' );
         taskElement.className = "list-group-item d-flex justify-content-between align-items-center";
 
+        let checkBox = document.createElement( 'input' );
+        checkBox.type = 'checkbox';
+        checkBox.checked = task.completed || false;
+        checkBox.className = 'form-check-input me-2';
+        checkBox.addEventListener('change', () => {toggleTaskCompletion(taskId)});
 
         let taskText = document.createElement( 'span' );
         taskText.textContent = `${ index + 1 }. ${ task.task } ${ task.description ? `- ${ task.description }` : '' } `;
@@ -104,6 +109,7 @@ function displayTask ()
         editBtn.textContent = 'Edit Task';
         editBtn.setAttribute('data-id', taskId) ;
         
+        taskBtns.appendChild( checkBox );
         taskBtns.appendChild( editBtn );
         taskBtns.appendChild( deleteBtn );        
 
