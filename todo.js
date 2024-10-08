@@ -57,7 +57,8 @@ function saveTask ()
     let newTask = {
         id: Date.now(),
         task: taskInput,
-        description: descriptionInput || ""
+        description: descriptionInput || "",
+        status: 'active'
     };
     entries.push( newTask );
     localStorage.setItem("tasks", JSON.stringify(entries));
@@ -87,12 +88,21 @@ function displayTask ()
 
         let checkBox = document.createElement( 'input' );
         checkBox.type = 'checkbox';
-        checkBox.checked = task.completed || false;
+        checkBox.checked = task.status === 'completed';
         checkBox.className = 'form-check-input me-2';
-        checkBox.addEventListener('change', () => {toggleTaskCompletion(taskId)});
+        
+        checkBox.addEventListener( 'change', function () {
+            toggleTaskCompletion( taskId, this.checked);
+        } );
 
         let taskText = document.createElement( 'span' );
         taskText.textContent = `${ index + 1 }. ${ task.task } ${ task.description ? `- ${ task.description }` : '' } `;
+
+        if ( task.status === 'completed' )
+        {
+            taskText.style.textDecoration = 'line-through';
+            taskText.style.color = 'grey';
+        }
 
         let taskBtns = document.createElement( 'div' );
         taskBtns.className = "d-flex justify-content-end gap-2";
@@ -104,15 +114,17 @@ function displayTask ()
         deleteBtn.setAttribute('data-id', taskId);
 
         
-        let editBtn = document.createElement( 'button' );
-        editBtn.className = 'btn btn-info btn-sm';
-        editBtn.textContent = 'Edit Task';
-        editBtn.setAttribute('data-id', taskId) ;
-        
-        taskBtns.appendChild( checkBox );
-        taskBtns.appendChild( editBtn );
+        if (task.status === 'active') {
+            let editBtn = document.createElement( 'button' );
+            editBtn.className = 'btn btn-info btn-sm';
+            editBtn.textContent = 'Edit Task';
+            editBtn.setAttribute('data-id', taskId) ;
+            
+            taskBtns.appendChild( editBtn );
+        }
         taskBtns.appendChild( deleteBtn );        
 
+        taskElement.appendChild(checkBox);
         taskElement.appendChild(taskText); 
         taskElement.appendChild( taskBtns);
         
@@ -160,7 +172,8 @@ function updateTask(index) {
     entries[ index ] = {
         id: entries[ index ].id,
         task: updatedTask,
-        description: updatedDescription
+        description: updatedDescription,
+        status: entries[ index ].status
     };
 
     localStorage.setItem("tasks", JSON.stringify(entries));
@@ -176,6 +189,20 @@ function updateTask(index) {
 
     currentEditIndex = null;
 
+    displayTask();
+}
+
+function toggleTaskCompletion ( taskId, isChecked )
+{
+    entries = getTasks();
+    
+    let task = entries.find( task => task.id === Number( taskId ) );
+
+
+    if (task) {
+        task.status = isChecked ? 'completed' : 'active';
+    }
+    localStorage.setItem( "tasks", JSON.stringify( entries ) );
     displayTask();
 }
 
